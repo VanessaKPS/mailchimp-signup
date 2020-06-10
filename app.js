@@ -57,4 +57,6 @@ app.post("/", (req, res) => {
 app.post("/failure", (req, res) => {
   res.redirect("/");
 });
-app.listen(8008, () => console.log("server is running on boob"));
+app.listen(process.env.PORT || 8008, () =>
+  console.log("server is running on boob")
+);
