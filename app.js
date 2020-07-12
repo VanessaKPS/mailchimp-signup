@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
-const https = require("https");
+const https = require('https');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static("public"));
+app.use(express.static('public'));
 
-app.get("/", (req, res) => res.sendFile(__dirname + "/signup.html"));
+app.get('/', (req, res) => res.sendFile(__dirname + '/signup.html'));
 
-app.post("/", (req, res) => {
+app.post('/', (req, res) => {
   const firstName = req.body.first;
   const lastName = req.body.last;
   const email = req.body.emailAdd;
@@ -21,7 +21,7 @@ app.post("/", (req, res) => {
     members: [
       {
         email_address: email,
-        status: "subscribed",
+        status: 'subscribed',
         merge_fields: {
           FNAME: firstName,
           LNAME: lastName,
@@ -32,31 +32,27 @@ app.post("/", (req, res) => {
 
   const jsonData = JSON.stringify(data);
 
-  const url = "https://us10.api.mailchimp.com/3.0/lists/932573d1e6";
+  const url = 'https://us10.api.mailchimp.com/3.0/lists/932573d1e6';
   const options = {
-    method: "POST",
-    auth: "vk123:fee6a39803bb004cd3d17b508cc0a0b6-us10",
+    method: 'POST',
+    auth: 'vk123:fee6a39803bb004cd3d17b508cc0a0b6-us10',
   };
 
   const r = https.request(url, options, (response) => {
     if (response.statusCode === 200) {
-      res.sendFile(__dirname + "/success.html");
+      res.sendFile(__dirname + '/success.html');
     } else {
-      res.sendFile(__dirname + "/failure.html");
+      res.sendFile(__dirname + '/failure.html');
     }
-    // res.on("data", (data) => {
-    //   const mailchimpRes = console.log(JSON.parse(data));
-    //   console.log(mailchimpRes.errors.error_code);
-    // });
   });
 
   r.write(jsonData);
   r.end();
 });
 
-app.post("/failure", (req, res) => {
-  res.redirect("/");
+app.post('/failure', (req, res) => {
+  res.redirect('/');
 });
-app.listen(process.env.PORT || 8008, () =>
-  console.log("server is running on boob")
+app.listen(process.env.PORT || 3000, () =>
+  console.log('server is running on 3000')
 );
